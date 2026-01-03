@@ -147,10 +147,18 @@ export function TravelTimeline() {
     if (!timelineRef.current) return
 
     try {
-      const canvas = await html2canvas(timelineRef.current, {
+      // Add padding temporarily
+      const element = timelineRef.current
+      const originalPadding = element.style.padding
+      element.style.padding = '40px' // Add 40px padding on all sides
+
+      const canvas = await html2canvas(element, {
         backgroundColor: "#ffffff",
         scale: 2,
       })
+
+      // Restore original padding
+      element.style.padding = originalPadding
 
       const imgData = canvas.toDataURL("image/png")
       const pdf = new jsPDF({
